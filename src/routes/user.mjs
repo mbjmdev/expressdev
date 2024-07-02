@@ -10,6 +10,16 @@ const router = Router();
 router.get('/api/users', 
     checkSchema(getUserValidationSchema),
     (req,res) => {
+
+    console.log(req.session.id);
+    req.sessionStore.get(req.session.id, (err, sessionData) => {
+        if(err) {
+            console.log(err);
+            throw err;
+        }
+        console.log(sessionData);
+    });
+    
     const result = validationResult(req);
     if(!result.isEmpty()){
         res.status(400).send({errors: result.array()})
